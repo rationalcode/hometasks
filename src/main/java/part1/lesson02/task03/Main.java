@@ -1,30 +1,39 @@
 package part1.lesson02.task03;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) {
-
+        //создание компаратора
+        Comparator <Person> personComparator = new PersonSexComparator()
+                                                .thenComparing(new PersonAgeComparator())
+                                                .thenComparing(Person::getName);
+        //генерация массива объектов Person
         Person [] newPeoples = generatePersonsArray(10);
 
-        for (Person person:   newPeoples) {
+            for (Person person:   newPeoples) {
 
-            System.out.println(person.getName() + " " + person.getAge() + " " + person.getSex());
-        }
+                System.out.println(person.getName() + " " + person.getAge() + " " + person.getSex());
+            }
+            System.out.println();
 
+        //сортировка массива  по условиям в компараторе
         long startTime = System.currentTimeMillis();
 
-        Person [] sortArray = new PersonSorting().sort(newPeoples);
+            Arrays.sort(newPeoples,personComparator);
 
         long endTime = System.currentTimeMillis();
 
-        System.out.println("Execute time :" + (endTime-startTime) + " ms");
+        long output = endTime - startTime;
 
-        for (Person person:   sortArray) {
+            for (Person person:   newPeoples) {
 
-            System.out.println(person.getName() + " " + person.getAge() + " " + person.getSex());
-        }
+                System.out.println(person.getName() + " " + person.getAge() + " " + person.getSex());
+            }
+            System.out.println("Execute time :" + startTime +" "  + endTime + " " + output + " ms");
 
     }
 
@@ -46,25 +55,8 @@ public class Main {
         return people;
     }
 
-    static class PersonSorting implements Sorting {
-
-        @Override
-        public Person[] sort(Person[] people) {
-
-            Person [] temp = new Person[people.length];
-
-            for (int i=0, j=0; i<people.length;i++,j++) {
 
 
-
-            }
-
-            return temp;
-
-        }
-
-
-    }
 
     static class PersonException extends Exception{
 
