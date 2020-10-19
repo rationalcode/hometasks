@@ -1,18 +1,22 @@
 package part1.lesson04.task01;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MathBox {
 
-    private List<Number> numberList;
+    private final List<Number> numberList;
 
     public MathBox(Number[] numberList) {
+
         this.numberList = Arrays.asList(numberList);
     }
 
     public List<Number> getNumberList() {
-        return numberList;//new ArrayList <Number> (numberList);
+
+        return this.numberList;
     }
 
     public int summator (List<Number>numbers){
@@ -26,7 +30,20 @@ public class MathBox {
         return summ;
     }
 
-    public void splitter(){}
+    public void splitter(Integer divisor){
+
+        List<Number>tempList = new ArrayList<>();
+
+        Number temp;
+
+        for (int i=0; i < this.numberList.size(); i++) {
+
+            temp = (this.numberList.get(i).doubleValue())/divisor;
+
+            this.numberList.set(i,temp);
+        }
+
+    }
 
 }
 
