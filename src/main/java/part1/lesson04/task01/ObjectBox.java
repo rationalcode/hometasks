@@ -12,24 +12,24 @@ import java.util.List;
  * У класса должен быть метод deleteObject, проверяющий наличие объекта в коллекции и при наличии удаляющий его.
  * Должен быть метод dump, выводящий содержимое коллекции в строку.
  * */
-public class ObjectBox {
+public class ObjectBox <T>{
 
-    private List <Object> list = new ArrayList<>();
+    public Collection<T> list = new ArrayList<>();
 
-    public ObjectBox(Collection<Object> list) {
+    public ObjectBox(Collection<T> list) {
 
-        this.list = (List<Object>) list;
+        this.list = list;
     }
 
     public ObjectBox() {
     }
 
-    public void addObject (Object o){
+    public void addObject (T o){
 
         list.add(o);
     }
 
-    public void deleteObject (Object o){
+    public void deleteObject (T o){
 
         int index = 0;
 
@@ -39,7 +39,7 @@ public class ObjectBox {
         }
     }
 
-    public List <Object> dump (){
+    public Collection <T> dump (){
 
             return list;
     }

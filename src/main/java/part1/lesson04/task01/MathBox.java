@@ -18,7 +18,13 @@ import java.util.*;
  */
 public class MathBox extends ObjectBox {
 
-    private final List<Number> numberList;
+    private final List <Number> numberList;
+
+    public MathBox(Collection list) {
+        super(list);
+
+        numberList = (List<Number>) list;
+    }
 
     public MathBox(Number[] numberList) {
 
@@ -26,33 +32,33 @@ public class MathBox extends ObjectBox {
     }
 
 
-    /** метод getNumberList() возвращает коллекцию Number */
+    /** метод getNumberList() возвращает коллекцию Number*/
     public List<Number> getNumberList() {
 
         return numberList;
     }
 
     /** метод summator() суммирует элементы коллекции */
-    public Double summator (List<? extends Number>numbers){
+    public Double summator (List<Number> numbers){
 
         double summ = 0.0;
 
-        for (Number number: numbers) {
+        for (int i=0; i < numbers.size(); i++) {
 
-            summ += number.doubleValue();
+            summ += numbers.get(i).doubleValue();
         }
 
         return summ;
     }
 
     /** метод splitter() делит значения элементов на значение аргумента */
-    public void splitter(Integer divisor){
+    public void splitter (Integer divisor){
 
-        Number temp;
+        Double temp;
 
         for (int i=0; i < numberList.size(); i++) {
 
-            temp = (numberList.get(i).doubleValue())/divisor;
+            temp =  (numberList.get(i).doubleValue()) / divisor;
 
             numberList.set(i,temp);
         }
@@ -87,7 +93,7 @@ public class MathBox extends ObjectBox {
                 throw new Exception();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Элемент не соотвествует коллекции MathBox !");
+                System.err.println("Элемент: " + o + " ("+ o.getClass() +") не соответствует коллекции MathBox !");
             }
         } else this.numberList.add((Number) o);
     }
