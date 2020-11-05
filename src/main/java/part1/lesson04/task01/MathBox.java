@@ -16,26 +16,22 @@ import java.util.*;
  *
  * @author Sayfullin Marat
  */
-public class MathBox extends ObjectBox {
+public class MathBox <TObject extends Number> extends ObjectBox <TObject> {
 
-    private final List <Number> numberList;
-
-    public MathBox(Collection list) {
+    public MathBox(Collection<TObject> list) {
         super(list);
 
-        numberList = (List<Number>) list;
     }
 
-    public MathBox(Number[] numberList) {
+    public MathBox(TObject[] numberList) {
 
-        this.numberList = new ArrayList<>(Arrays.asList(numberList));
+        super(new ArrayList<>(Arrays.asList(numberList.clone())));
+
     }
 
-
-    /** метод getNumberList() возвращает коллекцию Number*/
-    public List<Number> getNumberList() {
-
-        return numberList;
+    @Override
+    public List<TObject> getValues() {
+        return (List<TObject>) collection;
     }
 
     /** метод summator() суммирует элементы коллекции */
@@ -56,11 +52,11 @@ public class MathBox extends ObjectBox {
 
         Double temp;
 
-        for (int i=0; i < numberList.size(); i++) {
+        for (int i=0; i < collection.size(); i++) {
 
-            temp =  (numberList.get(i).doubleValue()) / divisor;
+            temp =  (getValues().get(i).doubleValue()) / divisor;
 
-            numberList.set(i,temp);
+            getValues().set(i,(TObject) temp);
         }
 
     }
@@ -70,13 +66,13 @@ public class MathBox extends ObjectBox {
 
         int index;
 
-        if(numberList.contains(value)){
+        if(collection.contains(value)){
 
-            index = numberList.indexOf(value);
+            index = getValues().indexOf(value);
 
-            System.out.println("Совпадение объекта: индекс " + index + " значение " + numberList.get(index));
+            System.out.println("Совпадение объекта: индекс " + index + " значение " + getValues().get(index));
 
-            numberList.remove(index);
+            getValues().remove(index);
 
             System.out.println("Удаление объекта");
 
@@ -85,25 +81,27 @@ public class MathBox extends ObjectBox {
     }
 
     @Override
-    public void addObject(Object o) {
-        super.addObject(o);
+    public void addObject(TObject o) {
 
-        if (!(o instanceof Number)){
-            try {
-                throw new Exception();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Элемент: " + o + " ("+ o.getClass() +") не соответствует коллекции MathBox !");
-            }
-        } else this.numberList.add((Number) o);
+        if (o instanceof Number){
+
+            collection.add((TObject) o);
+
+        } else try {
+            throw new Exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Элемент: " + o + " ("+ o.getClass() +") не соответствует коллекции MathBox !");
+        }
+
     }
 
     @Override
-    public void deleteObject(Object o) {
+    public void deleteObject(TObject o) {
         super.deleteObject(o);
 
-        if(this.numberList.contains(o)){
-            this.numberList.remove(o);
+        if(collection.contains(o)){
+            collection.remove(o);
             System.out.println("Элемент " + o + " удален.");
         }
         System.out.println("Коллекция не содержит элемента: " + o);
@@ -114,18 +112,18 @@ public class MathBox extends ObjectBox {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MathBox mathBox = (MathBox) o;
-        return Objects.equals(numberList, mathBox.numberList);
+        return Objects.equals(collection, mathBox.collection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numberList);
+        return Objects.hash(collection);
     }
 
     @Override
     public String toString() {
         return "MathBox{" +
-                "numberList=" + numberList +
+                "numberList=" + collection +
                 '}';
     }
 }
